@@ -2,56 +2,56 @@
 #include <stdlib.h>
 
 int main() {
-    int n;
-    while (scanf("%d", &n) != EOF) {
-        int pilha = 1, fila = 1, fila_prioridade = 1;
-        int pilha_elem[1000], fila_elem[1000], fila_prio_elem[1000];
-        int topo_pilha = -1, frente_fila = 0, tras_fila = 0, tam_fila_prio = 0;
+    int t;
+    while (scanf("%d", &t) != EOF) {
+        int pilha_ativa = 1, fila_ativa = 1, fila_prioridade_ativa = 1;
+        int pilha_elementos[1000], fila_elementos[1000], fila_prio_elementos[1000];
+        int topo_pilha_ativo = -1, frente_fila_ativa = 0, tras_fila_ativa = 0, tamanho_fila_prio = 0;
 
-        for (int i = 0; i < n; i++) {
-            int op;
-            scanf("%d", &op);
-            if (op == 1) {
-                int x;
-                scanf("%d", &x);
-                if (pilha) pilha_elem[++topo_pilha] = x;
-                if (fila) fila_elem[tras_fila++] = x;
-                if (fila_prioridade) fila_prio_elem[tam_fila_prio++] = x;
+        for (int i = 0; i < t; i++) {
+            int operacao;
+            scanf("%d", &operacao);
+            if (operacao == 1) {
+                int valor;
+                scanf("%d", &valor);
+                if (pilha_ativa) pilha_elementos[++topo_pilha_ativo] = valor;
+                if (fila_ativa) fila_elementos[tras_fila_ativa++] = valor;
+                if (fila_prioridade_ativa) fila_prio_elementos[tamanho_fila_prio++] = valor;
             } else {
-                int x;
-                scanf("%d", &x);
+                int valor;
+                scanf("%d", &valor);
 
-                if (pilha) {
-                    if (topo_pilha == -1 || pilha_elem[topo_pilha] != x) pilha = 0;
-                    else topo_pilha--;
+                if (pilha_ativa) {
+                    if (topo_pilha_ativo == -1 || pilha_elementos[topo_pilha_ativo] != valor) pilha_ativa = 0;
+                    else topo_pilha_ativo--;
                 }
-                if (fila) {
-                    if (frente_fila == tras_fila || fila_elem[frente_fila] != x) fila = 0;
-                    else frente_fila++;
+                if (fila_ativa) {
+                    if (frente_fila_ativa == tras_fila_ativa || fila_elementos[frente_fila_ativa] != valor) fila_ativa = 0;
+                    else frente_fila_ativa++;
                 }
-                if (fila_prioridade) {
-                    int max = -1, idx_max = -1;
-                    for (int j = 0; j < tam_fila_prio; j++) {
-                        if (fila_prio_elem[j] > max) {
-                            max = fila_prio_elem[j];
-                            idx_max = j;
+                if (fila_prioridade_ativa) {
+                    int max_valor = -1, indice_max_valor = -1;
+                    for (int j = 0; j < tamanho_fila_prio; j++) {
+                        if (fila_prio_elementos[j] > max_valor) {
+                            max_valor = fila_prio_elementos[j];
+                            indice_max_valor = j;
                         }
                     }
-                    if (max == -1 || max != x) fila_prioridade = 0;
+                    if (max_valor == -1 || max_valor != valor) fila_prioridade_ativa = 0;
                     else {
-                        fila_prio_elem[idx_max] = fila_prio_elem[--tam_fila_prio];
+                        fila_prio_elementos[indice_max_valor] = fila_prio_elementos[--tamanho_fila_prio];
                     }
                 }
             }
         }
 
-        if (pilha + fila + fila_prioridade == 0) {
+        if (pilha_ativa + fila_ativa + fila_prioridade_ativa == 0) {
             printf("impossible\n");
-        } else if (pilha + fila + fila_prioridade > 1) {
+        } else if (pilha_ativa + fila_ativa + fila_prioridade_ativa > 1) {
             printf("not sure\n");
-        } else if (pilha) {
+        } else if (pilha_ativa) {
             printf("stack\n");
-        } else if (fila) {
+        } else if (fila_ativa) {
             printf("queue\n");
         } else {
             printf("priority queue\n");
